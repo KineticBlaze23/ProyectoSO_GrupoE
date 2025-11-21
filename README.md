@@ -103,3 +103,73 @@ El `join` se hace en un bucle secuencial porque:
 - El programa no pasa al reporte final hasta que **todos** los hilos hayan concluido.
 ---
 
+# Sincronización y Zona Crítica
+Para su correcta ejecución concurrente entre hilos, el programa utiliza semáforos POSIX de la biblioteca estándar de linux. 
+
+
+```c
+#include <semaphore.h>
+
+```
+Provee:
+
+sem_init()
+
+sem_wait()
+
+sem_post()
+
+sem_destroy()
+
+La zona crítica protege a los datos que  corresponden a las operaciones sobre los recursos compartidos y no ser modificados por dos hilos al mismo tiempo, por lo que requieren una exclusión mutua.
+
+- Base de datos de cuentas (base_datos[])
+
+- Contadores globales (total_ops_ok, total_ops_error)
+
+## Implementacion zona Crítica
+
+Declarar semáforo
+```c
+sem_t sem_transaccion;
+
+```
+Para inicializar en el mai():
+
+```c
+sem_init(&sem_transaccion, 0, 1);
+
+```
+Crea un semáforo binario, que permite que solo un hilo entre en la zona critica.
+
+## Protección de la zona crítica (Sewait)
+Antes de modificar la base de datos, cada hilo ejecuta:
+```c
+sem_wait(&sem_transaccion);   // Bloquea el acceso (entra a la zona crítica)
+
+```
+Funcionamiento:
+```c
+sem_wait(&sem_transaccion);
+
+/* --- ZONA CRÍTICA ---
+   Acceso y modificación de saldos de las cuentas
+   Actualización de contadores globales
+*/
+... operaciones ...
+
+sem_post(&sem_transaccion);   // Libera el semáforo, otro hilo puede entrar
+
+```
+sem_wait() → El hilo espera hasta que el semáforo esté disponible y luego entra en la zona crítica.
+
+sem_post() → El hilo sale de la zona crítica y despierta al siguiente hilo que esté esperando.
+
+Si no se implementara el semáforo:
+- Dos hilos podrían modificar el mismo saldo simultáneamente.
+
+- Se generarían inconsistencias en la base de datos.
+
+- Los contadores globales producirían condiciones de carrera.
+
+La sincronización asegura que las transacciones sean atómicas, consistentes y libres de errores.
