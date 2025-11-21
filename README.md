@@ -32,7 +32,7 @@ int total_ops_ok, total_ops_error;
 * *base_datos[NUM_CUENTAS]:* Array estático que representa el estado financiero compartido. Como todos los cajeros (hilos) intentan leer y escribir aquí al mismo tiempo, es vital protegerla para que los saldos no se corrompan por escrituras simultáneas.
 * *sem_t sem_transaccion:* Mecanismo de control de acceso que bloquea a los demás hilos durante una modificación, garantizando que cada operación se ejecute de principio a fin sin interrupciones
 * *int total_ops_ok, total_ops_error:* Contadores que evitan que dos hilos intenten sumar al mismo tiempo y se pierdan datos.
-# Inicialización y Creación de Hilos en el Sistema Bancario de Alta Concurrencia
+
 # Inicialización y Creación de Hilos en el Sistema Bancario de Alta Concurrencia
 
 Aqui se explica cómo se inicializan los recursos del sistema y cómo se crean y sincronizan los hilos usando POSIX Threads (`pthread`) en el programa bancario. El objetivo es entender claramente el proceso de preparación, ejecución y finalización de los hilos que simulan cajeros operando sobre una base de datos compartida.
