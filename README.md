@@ -223,3 +223,27 @@ En el retiro, el cajero intenta descontar un monto específico del saldo de una 
 ### 🔵 Transferencia
 
 La transferencia implica mover fondos desde una cuenta origen hacia una cuenta destino diferente. Para realizarse, el sistema comprueba que ambas cuentas sean distintas y que la cuenta origen posea el monto necesario. Si las condiciones se cumplen, el dinero se descuenta de la primera cuenta y se acredita en la segunda. En caso contrario, la operación se considera fallida. Esta transacción refleja un movimiento bancario más complejo que combina verificación y actualización simultánea de dos cuentas.
+
+## 🚀 Conclusiones del Proyecto
+
+Tras la implementación y ejecución del sistema bancario simulado, se han obtenido las siguientes conclusiones técnicas y operativas:
+
+### 1. Eficiencia del Procesamiento Paralelo
+La implementación de **hilos POSIX (pthreads)** ha demostrado ser efectiva para simular un entorno de alta concurrencia. Al utilizar hilos en lugar de procesos pesados, el sistema logra gestionar múltiples "cajeros" (20 hilos) operando simultáneamente sobre el mismo espacio de memoria con un coste computacional reducido (context switching más rápido).
+
+### 2. Integridad de Datos mediante Sincronización
+Se comprobó que el uso de mecanismos de exclusión mutua es obligatorio en sistemas de memoria compartida.
+* **El problema:** Sin control, las condiciones de carrera (race conditions) provocan inconsistencias en los saldos y en los contadores globales (`total_ops_ok`, `total_ops_error`).
+* **La solución:** La implementación del semáforo binario (`sem_t`) actuando como **Mutex** garantiza la **atomicidad** de las transacciones. Las funciones `sem_wait` y `sem_post` aseguran que solo un cajero pueda modificar la base de datos a la vez, eliminando la corrupción de datos.
+
+### 3. Gestión de la Sección Crítica
+El proyecto ilustra la importancia de identificar correctamente la **Sección Crítica**. No solo se protegió el arreglo de `base_datos`, sino también los contadores estadísticos globales. Esto demuestra que cualquier recurso de escritura compartido entre hilos debe ser tratado bajo estrictos protocolos de bloqueo para asegurar un reporte final fidedigno.
+
+### 4. Simulación de Lógica de Negocio Real
+El sistema valida exitosamente restricciones lógicas dentro de un entorno concurrente:
+* Evita saldos negativos en retiros.
+* Valida integridad en transferencias (cuentas distintas y fondos suficientes).
+Esto confirma que la lógica de programación secuencial debe coexistir con la lógica de control de concurrencia para que una aplicación sea robusta.
+
+### 5. Sincronización de Procesos (Join)
+El uso de `pthread_join` es indispensable para la orquestación del ciclo de vida del programa. Garantiza que el proceso principal (Main) no finalice ni muestre estadísticas hasta que el último hilo haya completado su tarea, asegurando que no queden "hilos huérfanos" y que los recursos se liberen ordenadamente.
