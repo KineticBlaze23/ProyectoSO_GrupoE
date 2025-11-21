@@ -9,9 +9,9 @@ Esta aplicación permite visualizar el comportamiento de los hilos con datos com
 # Configuracion y estructura de datos
 El sistema implementa un modelo de memoria compartida global, donde múltiples hilos compiten por el acceso a las estructuras de datos centrales para simular el flujo transaccional de una entidad bancaria.
 ## Parametros iniciales
-* NUM_CUENTAS (100): Es el total de cuentas bancarias. Se definio ese espacio de busqueda para aumentar la frecuencia de acceso simultaneo entre operaciones.
-* NUM_HILOS (20): Cantidad de cajeros trabajando de manera simultanea
-* DELAY_MICROSEGUNDOS (500000): Tiempo de retardo para ver las operaciones dentro de htop.
+* *NUM_CUENTAS (100):* Es el total de cuentas bancarias. Se definio ese espacio de busqueda para aumentar la frecuencia de acceso simultaneo entre operaciones.
+* *NUM_HILOS (20):* Cantidad de cajeros trabajando de manera simultanea
+* *DELAY_MICROSEGUNDOS (500000):* Tiempo de retardo para ver las operaciones dentro de htop.
 
 ## Definicion de tipos de datos
 Se define una estructura de datos compacta (struct) que representa la entidad bancaria, conteniendo únicamente los datos esenciales para la transacción:
@@ -29,9 +29,9 @@ Cuenta base_datos[NUM_CUENTAS];
 sem_t sem_transaccion;
 int total_ops_ok, total_ops_error;
 ```
-* base_datos[NUM_CUENTAS]: Array estático que representa el estado financiero compartido. Como todos los cajeros (hilos) intentan leer y escribir aquí al mismo tiempo, es vital protegerla para que los saldos no se corrompan por escrituras simultáneas.
-* sem_t sem_transaccion: Mecanismo de control de acceso que bloquea a los demás hilos durante una modificación, garantizando que cada operación se ejecute de principio a fin sin interrupciones
-* int total_ops_ok, total_ops_error: Contadores que evitan que dos hilos intenten sumar al mismo tiempo y se pierdan datos.
+* *base_datos[NUM_CUENTAS]:* Array estático que representa el estado financiero compartido. Como todos los cajeros (hilos) intentan leer y escribir aquí al mismo tiempo, es vital protegerla para que los saldos no se corrompan por escrituras simultáneas.
+* *sem_t sem_transaccion:* Mecanismo de control de acceso que bloquea a los demás hilos durante una modificación, garantizando que cada operación se ejecute de principio a fin sin interrupciones
+* *int total_ops_ok, total_ops_error:* Contadores que evitan que dos hilos intenten sumar al mismo tiempo y se pierdan datos.
 # Inicialización y Creación de Hilos en el Sistema Bancario de Alta Concurrencia
 # Inicialización y Creación de Hilos en el Sistema Bancario de Alta Concurrencia
 
