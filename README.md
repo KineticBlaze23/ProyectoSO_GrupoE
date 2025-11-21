@@ -1,6 +1,6 @@
 # Proyecto I Bimestre - Sistemas Operativos
 
-El proyecto implementa un sistema bancario utilizando el lenguaje C dentro de una maquina virtual Ubuntu.Tiene como ojetivo principal simular múltiples transacciones bancarias ejecutadas de forma pararlela mediante el uso de hilos, lo que permite evaluar el comportamiento del sistema y medir el tiempo total del procesamiento.
+El proyecto implementa un sistema bancario utilizando el lenguaje C dentro de una maquina virtual Ubuntu. Su ojetivo principal es simular múltiples transacciones bancarias ejecutadas de forma paralela mediante el uso de hilos, lo que permite evaluar el comportamiento del sistema y medir el tiempo total del procesamiento.
 
 Los cajeros son representados por los hilos, estos realizan operaciones sobre una base de datos de cuentas bancarias. Entre las operaciones realizadas se encuentran: depósitos, retiros y transferencias; cada operación se genera de manera aleatoria simulando un escenario real de transacciones simultáneas.
 
