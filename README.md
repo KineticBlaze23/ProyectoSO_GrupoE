@@ -173,3 +173,21 @@ Si no se implementara el semáforo:
 - Los contadores globales producirían condiciones de carrera.
 
 La sincronización asegura que las transacciones sean atómicas, consistentes y libres de errores.
+
+## Lógica de transacciones 
+La función cajero_thread() representa a un cajero bancario.
+Cada hilo funciona como un cajero que procesa 50 operaciones, seleccionadas de forma aleatoria.
+
+Las tres operaciones que puede ejecutar cada hilo son:
+
+### 🟢 Depósito
+
+El depósito es la operación más sencilla dentro del sistema. El cajero selecciona una cuenta al azar y aumenta su saldo sumándole un monto generado aleatoriamente. Esta transacción siempre se completa con éxito, ya que no depende del estado previo de la cuenta. Representa el ingreso directo de dinero y refleja un proceso bancario simple pero fundamental.
+
+### 🟠 Retiro
+
+En el retiro, el cajero intenta descontar un monto específico del saldo de una cuenta. Antes de realizarlo, el sistema verifica que la cuenta tenga fondos suficientes. Si el saldo alcanza, la transacción se ejecuta correctamente; si no, se registra como fallida. Esta lógica evita saldos negativos y simula fielmente cómo operan los sistemas bancarios reales.
+
+### 🔵 Transferencia
+
+La transferencia implica mover fondos desde una cuenta origen hacia una cuenta destino diferente. Para realizarse, el sistema comprueba que ambas cuentas sean distintas y que la cuenta origen posea el monto necesario. Si las condiciones se cumplen, el dinero se descuenta de la primera cuenta y se acredita en la segunda. En caso contrario, la operación se considera fallida. Esta transacción refleja un movimiento bancario más complejo que combina verificación y actualización simultánea de dos cuentas.
