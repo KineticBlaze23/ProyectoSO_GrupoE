@@ -18,8 +18,8 @@ Se define una estructura de datos compacta (struct) que representa la entidad ba
 
 ```c
 typedef struct {
-    int id;        // Identificador único de la cuenta
-    double saldo;  // Dato crítico compartido (modificado por los hilos)
+    int id;        // ID Cuenta
+    double saldo;  // Saldo de cuenta
 } Cuenta;
 ```
 # Recursos Compartidos y Sincronizacion
