@@ -7,9 +7,9 @@
 
 // --- CONFIGURACIÓN PARA HTOP ---
 #define NUM_CUENTAS 100        // Base de datos
-#define NUM_HILOS 20           // 20 Hilos (Se ve genial en htop)
-#define OPS_POR_HILO 50        // Cada uno hace 50 operaciones
-#define DELAY_MICROSEGUNDOS 500000 // 0.5 Segundos de espera (Cámara lenta)
+#define NUM_HILOS 20           // Generacion de 20 Hilos 
+#define OPS_POR_HILO 50        // Cada hilo hace 50 operaciones
+#define DELAY_MICROSEGUNDOS 500000 // Tiempo de retardo para ver las transacciones realizadas
 
 // --- ESTRUCTURAS ---
 typedef struct {
