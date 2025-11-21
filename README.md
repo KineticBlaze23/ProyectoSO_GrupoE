@@ -22,7 +22,7 @@ typedef struct {
     double saldo;  // Saldo de cuenta
 } Cuenta;
 ```
-# Recursos Compartidos y Sincronizacion
+## Recursos Compartidos 
 Las siguientes variables son accesibles por todos los hilos, constituyendo la Zona Crítica del sistema:
 ```c
 Cuenta base_datos[NUM_CUENTAS];
