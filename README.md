@@ -6,6 +6,33 @@ Los cajeros son representados por los hilos, estos realizan operaciones sobre un
 
 Esta aplicación permite visualizar el comportamiento de los hilos con datos compartidos, detectar riesgos de concurrencia y aplicar mecanismos de sincronización para mantener la integridad de la información.
 
+# Configuracion y estructura de datos
+El sistema implementa un modelo de memoria compartida global, donde múltiples hilos compiten por el acceso a las estructuras de datos centrales para simular el flujo transaccional de una entidad bancaria.
+## Parametros iniciales
+* NUM_CUENTAS (100): Es el total de cuentas bancarias. Se definio ese espacio de busqueda para aumentar la frecuencia de acceso simultaneo entre operaciones.
+* NUM_HILOS (20): Cantidad de cajeros trabajando de manera simultanea
+* DELAY_MICROSEGUNDOS (500000): Tiempo de retardo para ver las operaciones dentro de htop.
+
+## Definicion de tipos de datos
+Se define una estructura de datos compacta (struct) que representa la entidad bancaria, conteniendo únicamente los datos esenciales para la transacción:
+
+```c
+typedef struct {
+    int id;        // Identificador único de la cuenta
+    double saldo;  // Dato crítico compartido (modificado por los hilos)
+} Cuenta;
+```
+# Recursos Compartidos y Sincronizacion
+Las siguientes variables son accesibles por todos los hilos, constituyendo la Zona Crítica del sistema:
+```c
+Cuenta base_datos[NUM_CUENTAS];
+sem_t sem_transaccion;
+int total_ops_ok, total_ops_error;
+```
+* base_datos[NUM_CUENTAS]: Array estático que representa el estado financiero compartido. Como todos los cajeros (hilos) intentan leer y escribir aquí al mismo tiempo, es vital protegerla para que los saldos no se corrompan por escrituras simultáneas.
+* sem_t sem_transaccion: Mecanismo de control de acceso que bloquea a los demás hilos durante una modificación, garantizando que cada operación se ejecute de principio a fin sin interrupciones
+* int total_ops_ok, total_ops_error: Contadores que evitan que dos hilos intenten sumar al mismo tiempo y se pierdan datos.
+# Inicialización y Creación de Hilos en el Sistema Bancario de Alta Concurrencia
 # Inicialización y Creación de Hilos en el Sistema Bancario de Alta Concurrencia
 
 Aqui se explica cómo se inicializan los recursos del sistema y cómo se crean y sincronizan los hilos usando POSIX Threads (`pthread`) en el programa bancario. El objetivo es entender claramente el proceso de preparación, ejecución y finalización de los hilos que simulan cajeros operando sobre una base de datos compartida.
